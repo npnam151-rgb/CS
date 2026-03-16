@@ -1,0 +1,132 @@
+import React from 'react';
+import { CHECKLIST_ITEMS, ReportData, ReportItem } from '../types';
+import { cn } from '../lib/utils';
+import { Check, X } from 'lucide-react';
+
+interface ReportFormProps {
+  data: ReportData;
+  onChange: (data: ReportData) => void;
+}
+
+export function ReportForm({ data, onChange }: ReportFormProps) {
+  const handleItemChange = (id: number, field: keyof ReportItem, value: any) => {
+    const newItems = data.items.map((item) =>
+      item.id === id ? { ...item, [field]: value } : item
+    );
+    onChange({ ...data, items: newItems });
+  };
+
+  return (
+    <div className="space-y-6">
+      <div className="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+        <h2 className="text-lg font-semibold text-slate-800 mb-4">Thông tin chung</h2>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Cơ sở</label>
+            <input
+              type="text"
+              value={data.location}
+              onChange={(e) => onChange({ ...data, location: e.target.value })}
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+              placeholder="VD: 98 Vũ Trọng Phụng"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Ngày</label>
+            <input
+              type="date"
+              value={data.date}
+              onChange={(e) => onChange({ ...data, date: e.target.value })}
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+            />
+          </div>
+          <div>
+            <label className="block text-sm font-medium text-slate-600 mb-1">Thời gian</label>
+            <input
+              type="text"
+              value={data.timeRange}
+              onChange={(e) => onChange({ ...data, timeRange: e.target.value })}
+              className="w-full px-3 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+              placeholder="VD: 17h-20h"
+            />
+          </div>
+        </div>
+      </div>
+
+      <div className="space-y-4">
+        {CHECKLIST_ITEMS.map((def) => {
+          const item = data.items.find((i) => i.id === def.id)!;
+          return (
+            <div key={def.id} className="bg-white p-5 rounded-xl shadow-sm border border-slate-200 hover:border-indigo-200 transition-colors">
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-4 mb-3">
+                <div className="flex-1">
+                  <h3 className="font-medium text-slate-800">
+                    {def.id}. {def.title}
+                  </h3>
+                  <p className="text-sm text-slate-500 mt-1">{def.req}</p>
+                </div>
+                
+                <div className="shrink-0">
+                  {def.type === 'check' ? (
+                    <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-lg">
+                      <button
+                        onClick={() => handleItemChange(def.id, 'value', true)}
+                        className={cn(
+                          "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all",
+                          item.value === true 
+                            ? "bg-emerald-500 text-white shadow-sm" 
+                            : "text-slate-600 hover:bg-slate-200"
+                        )}
+                      >
+                        <Check className="w-4 h-4" /> Đạt
+                      </button>
+                      <button
+                        onClick={() => handleItemChange(def.id, 'value', false)}
+                        className={cn(
+                          "flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm font-medium transition-all",
+                          item.value === false 
+                            ? "bg-rose-500 text-white shadow-sm" 
+                            : "text-slate-600 hover:bg-slate-200"
+                        )}
+                      >
+                        <X className="w-4 h-4" /> Không đạt
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3">
+                      <span className="text-sm font-medium text-slate-600">Điểm:</span>
+                      <input
+                        type="number"
+                        min="0"
+                        max="10"
+                        value={item.value as number}
+                        onChange={(e) => {
+                          let val = parseInt(e.target.value);
+                          if (isNaN(val)) val = 0;
+                          if (val > 10) val = 10;
+                          if (val < 0) val = 0;
+                          handleItemChange(def.id, 'value', val);
+                        }}
+                        className="w-20 px-3 py-1.5 border border-slate-300 rounded-lg text-center font-semibold focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none"
+                      />
+                      <span className="text-sm text-slate-500">/ 10</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div>
+                <textarea
+                  value={item.notes}
+                  onChange={(e) => handleItemChange(def.id, 'notes', e.target.value)}
+                  placeholder="Thông tin chi tiết / Ghi chú (nếu có)..."
+                  className="w-full px-3 py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-y min-h-[60px]"
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
