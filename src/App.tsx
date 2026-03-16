@@ -71,7 +71,7 @@ export default function App() {
             <button
               onClick={handleExportImage}
               disabled={isExporting}
-              className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+              className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isExporting ? (
                 <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
@@ -85,7 +85,7 @@ export default function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-28 sm:pb-8">
         {exportSuccess && (
           <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3 text-emerald-800 animate-in fade-in slide-in-from-top-4">
             <CheckCircle2 className="w-5 h-5 text-emerald-600" />
@@ -116,15 +116,30 @@ export default function App() {
               </span>
             </div>
             
-            <div className="bg-slate-200 p-4 rounded-2xl overflow-x-auto shadow-inner border border-slate-300">
-              {/* The preview container needs to be scaled down visually but maintain its 800px width for high-res export */}
-              <div className="origin-top-left scale-[0.6] sm:scale-[0.8] lg:scale-[0.7] xl:scale-[0.85] w-[800px] transition-transform">
+            <div className="bg-slate-200 p-2 sm:p-4 rounded-xl sm:rounded-2xl overflow-x-auto shadow-inner border border-slate-300">
+              <div className="w-[800px] min-w-[800px] mx-auto">
                 <ReportPreview data={reportData} ref={previewRef} />
               </div>
             </div>
           </div>
         </div>
       </main>
+
+      {/* Mobile Bottom Action Bar */}
+      <div className="sm:hidden fixed bottom-0 left-0 right-0 p-4 bg-white border-t border-slate-200 shadow-[0_-8px_15px_-3px_rgba(0,0,0,0.05)] z-50">
+        <button
+          onClick={handleExportImage}
+          disabled={isExporting}
+          className="w-full flex justify-center items-center gap-2 px-4 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white text-base font-semibold rounded-xl shadow-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
+        >
+          {isExporting ? (
+            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+          ) : (
+            <Download className="w-5 h-5" />
+          )}
+          Tải ảnh báo cáo
+        </button>
+      </div>
     </div>
   );
 }
