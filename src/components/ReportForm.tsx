@@ -41,13 +41,13 @@ export function ReportForm({ data, onChange }: ReportFormProps) {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-600 mb-1.5">Thời gian</label>
+            <label className="block text-sm font-medium text-slate-600 mb-1.5">Người báo cáo</label>
             <input
               type="text"
-              value={data.timeRange}
-              onChange={(e) => onChange({ ...data, timeRange: e.target.value })}
+              value={data.reporter}
+              onChange={(e) => onChange({ ...data, reporter: e.target.value })}
               className="w-full px-4 py-3 md:py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-              placeholder="VD: 17h-20h"
+              placeholder="VD: Nguyễn Văn A"
             />
           </div>
         </div>
@@ -61,9 +61,9 @@ export function ReportForm({ data, onChange }: ReportFormProps) {
               <div className="flex flex-col md:flex-row md:items-start justify-between gap-3 md:gap-4 mb-4 md:mb-3">
                 <div className="flex-1">
                   <h3 className="font-semibold md:font-medium text-slate-800 text-base md:text-sm">
-                    {def.id}. {def.title}
+                    {def.id === 13 ? '13' : def.id}. {def.title}
                   </h3>
-                  <p className="text-sm text-slate-500 mt-1">{def.req}</p>
+                  <p className="text-sm text-slate-500 mt-1 whitespace-pre-wrap">{def.req}</p>
                 </div>
                 
                 <div className="shrink-0 w-full md:w-auto mt-1 md:mt-0">
@@ -92,7 +92,7 @@ export function ReportForm({ data, onChange }: ReportFormProps) {
                         <X className="w-4 h-4" /> Không đạt
                       </button>
                     </div>
-                  ) : (
+                  ) : def.type === 'score' ? (
                     <div className="flex items-center justify-between md:justify-start gap-3 w-full md:w-auto bg-slate-100 md:bg-transparent p-2 md:p-0 rounded-lg">
                       <span className="text-sm font-medium text-slate-600 ml-2 md:ml-0">Điểm đánh giá:</span>
                       <div className="flex items-center gap-2">
@@ -113,17 +113,26 @@ export function ReportForm({ data, onChange }: ReportFormProps) {
                         <span className="text-sm text-slate-500 mr-2 md:mr-0">/ 10</span>
                       </div>
                     </div>
-                  )}
+                  ) : null}
                 </div>
               </div>
 
               <div>
-                <textarea
-                  value={item.notes}
-                  onChange={(e) => handleItemChange(def.id, 'notes', e.target.value)}
-                  placeholder="Thông tin chi tiết / Ghi chú (nếu có)..."
-                  className="w-full px-4 py-3 md:py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-y min-h-[80px] md:min-h-[60px]"
-                />
+                {def.type === 'text' ? (
+                  <textarea
+                    value={item.value as string}
+                    onChange={(e) => handleItemChange(def.id, 'value', e.target.value)}
+                    placeholder="Nhập nội dung đề xuất..."
+                    className="w-full px-4 py-3 md:py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-y min-h-[100px]"
+                  />
+                ) : (
+                  <textarea
+                    value={item.notes}
+                    onChange={(e) => handleItemChange(def.id, 'notes', e.target.value)}
+                    placeholder="Thông tin chi tiết / Ghi chú (nếu có)..."
+                    className="w-full px-4 py-3 md:py-2 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none resize-y min-h-[80px] md:min-h-[60px]"
+                  />
+                )}
               </div>
             </div>
           );

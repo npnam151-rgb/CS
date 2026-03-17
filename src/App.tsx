@@ -9,10 +9,10 @@ export default function App() {
   const [reportData, setReportData] = useState<ReportData>({
     location: '',
     date: new Date().toISOString().split('T')[0],
-    timeRange: '',
+    reporter: '',
     items: CHECKLIST_ITEMS.map((item) => ({
       id: item.id,
-      value: item.type === 'check' ? true : 10,
+      value: item.type === 'check' ? true : item.type === 'score' ? 10 : '',
       notes: '',
     })),
   });
@@ -64,7 +64,7 @@ export default function App() {
                 <Camera className="w-5 h-5" />
               </div>
               <h1 className="text-xl font-bold text-slate-900 tracking-tight">
-                Báo Cáo Trải Nghiệm KH
+                CS Báo Cáo Trải Nghiệm KH
               </h1>
             </div>
             
