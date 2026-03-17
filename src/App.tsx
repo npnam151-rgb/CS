@@ -49,7 +49,7 @@ export default function App() {
         // Format true/false thành text
         let formattedValue = item.value;
         if (item.value === true) formattedValue = "Thực hiện";
-        if (item.value === false) formattedValue = "Không thực hiện";
+        if (item.value === false) formattedValue = "Không TH";
 
         return {
           title: def?.title || `Hạng mục ${item.id}`,
