@@ -27,7 +27,7 @@ export const CHECKLIST_ITEMS: ChecklistItemDef[] = [
   { id: 4, title: 'Lấy Ý kiến khách hàng', type: 'check', req: 'Xin ý kiến khách hàng cảm nhận trải nghiệm, ý kiến về món ăn cụ thể trên bàn khách.' },
   { id: 5, title: 'Mời ctkm', type: 'check', req: 'Mời khách tham gia các CTKM thường xuyên như đánh giá 5* google, đăng ký thành viên.\nTham gia mời các CTKM định kỳ như Ngày hội Bia Ơi, thứ 3 hàng tuần cho thành viên' },
   { id: 6, title: 'Hoạt động hoạt náo', type: 'check', req: 'Tham gia các hoạt động hoạt náo tại điểm cùng team MKT và nv CH như sinh nhật KH...' },
-  { id: 7, title: 'Kiểm tra các tủ mát trưng bày', type: 'score', req: 'Nếu tủ không sắp xếp gọn gàng theo đúng chủng loại và đủ kín đồ thì yc sắp xếp và fill đủ đồ' },
+  { id: 7, title: 'Chấm điểm các tủ mát trưng bày', type: 'score', req: 'Nếu tủ không sắp xếp gọn gàng theo đúng chủng loại và đủ kín đồ thì yc sắp xếp và fill đủ đồ' },
   { id: 8, title: 'Chấm điểm hình ảnh nhân sự CH', type: 'score', req: 'NV mặc áo đồng phục theo qui định, ko đi dép lê, có đủ bút, tab, đeo bộ đàm.\nNV luôn nói Bia Ơi xin chào khi khách đến và Bia Ơi cảm ơn khi tiễn khách.\nNV CS mặc tạp dề, tóc tai gọn gàng trang điểm xinh tươi\nNV boy ko đi dép lê, ko mặc quần rách' },
   { id: 9, title: 'Chấm điểm Quản lý', type: 'score', req: 'QL có mặt đầy đủ trong giờ làm việc\nQuan sát sự giao tiếp của QL với KH\nQuan sát sự sát sao của QL với nhân viên' },
   { id: 10, title: 'Chấm điểm nhân viên làm việc đúng qui trình', type: 'score', req: 'Luôn dùng khay để bê đồ\nGhi tờ check đầy đủ\nLuôn có mặt tại bàn phục vụ không để khách phải bực mình vì không gọi đc nhân viên\nKhi dọn bàn tuân thủ đúng qui trình và đảm bảo sạch sẽ theo đúng qui định\nKhông dùng điện thoại trong ca làm việc' },
