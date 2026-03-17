@@ -23,13 +23,18 @@ export function ReportForm({ data, onChange }: ReportFormProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-600 mb-1.5">Cơ sở</label>
-            <input
-              type="text"
+            <select
               value={data.location}
               onChange={(e) => onChange({ ...data, location: e.target.value })}
-              className="w-full px-4 py-3 md:py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
-              placeholder="VD: 98 Vũ Trọng Phụng"
-            />
+              className="w-full px-4 py-3 md:py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-white"
+            >
+              <option value="">-- Chọn cơ sở --</option>
+              <option value="94 Lò Đúc">94 Lò Đúc</option>
+              <option value="96 Hồng Tiến">96 Hồng Tiến</option>
+              <option value="98 Vũ Trọng Phụng">98 Vũ Trọng Phụng</option>
+              <option value="01 Đặng Dung">01 Đặng Dung</option>
+              <option value="3D Nguyễn Văn Huyên">3D Nguyễn Văn Huyên</option>
+            </select>
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-600 mb-1.5">Ngày</label>
