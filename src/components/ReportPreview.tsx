@@ -49,7 +49,7 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
             <thead>
               <tr className="bg-slate-100 text-slate-800 text-sm uppercase tracking-wider">
                 <th className="py-3 px-4 border-b border-slate-300 font-semibold w-12 text-center">STT</th>
-                <th className="py-3 px-4 border-b border-slate-300 font-semibold w-1/3">Hạng mục / Yêu cầu</th>
+                <th className="py-3 px-4 border-b border-slate-300 font-semibold w-1/3">Hạng mục</th>
                 <th className="py-3 px-4 border-b border-slate-300 font-semibold w-24 text-center">Đánh giá</th>
                 <th className="py-3 px-4 border-b border-slate-300 font-semibold">Thông tin chi tiết</th>
               </tr>
@@ -89,7 +89,6 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
                       </td>
                       <td className="py-3 px-4 align-top" colSpan={isText ? 3 : 1}>
                         <div className="font-semibold text-slate-800 mb-1">{def.title}</div>
-                        <div className="text-xs text-slate-500 leading-relaxed whitespace-pre-wrap">{def.req}</div>
                         {isText && (
                           <div className="mt-3 text-slate-700 whitespace-pre-wrap leading-relaxed bg-slate-50 p-3 rounded border border-slate-200">
                             {item.value ? item.value : <span className="text-slate-400 italic">Không có đề xuất</span>}
