@@ -5,6 +5,9 @@ import { ReportForm } from './components/ReportForm';
 import { ReportPreview } from './components/ReportPreview';
 import { ReportData, CHECKLIST_ITEMS } from './types';
 
+// TODO: Thay thế đường dẫn này bằng URL Web App của Google Apps Script của bạn
+const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwgcc1OUFV2fyFq7Tk6wsywwpMy_g074yn3bwQi6hV2BepeRKIyjP_MxO3w_kZfnKYy/exec";
+
 export default function App() {
   const [reportData, setReportData] = useState<ReportData>({
     location: '',
@@ -21,6 +24,56 @@ export default function App() {
   const [exportSuccess, setExportSuccess] = useState(false);
   const previewRef = useRef<HTMLDivElement>(null);
 
+  const saveToGoogleSheets = async (data: ReportData) => {
+    if (!GOOGLE_SHEET_WEBHOOK_URL) {
+      console.log("Chưa cấu hình Google Sheets Webhook URL. Bỏ qua bước lưu dữ liệu.");
+      return;
+    }
+
+    // Tính tổng điểm
+    const totalScore = data.items
+      .filter((item) => {
+        const def = CHECKLIST_ITEMS.find((d) => d.id === item.id);
+        return def?.type === 'score';
+      })
+      .reduce((sum, item) => sum + (Number(item.value) || 0), 0);
+
+    const payload = {
+      location: data.location,
+      date: data.date,
+      reporter: data.reporter,
+      totalScore: totalScore,
+      items: data.items.map(item => {
+        const def = CHECKLIST_ITEMS.find((d) => d.id === item.id);
+        
+        // Format true/false thành text
+        let formattedValue = item.value;
+        if (item.value === true) formattedValue = "Thực hiện";
+        if (item.value === false) formattedValue = "Không thực hiện";
+
+        return {
+          title: def?.title || `Hạng mục ${item.id}`,
+          value: formattedValue,
+          notes: item.notes
+        };
+      })
+    };
+
+    try {
+      await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
+        method: 'POST',
+        mode: 'no-cors', // Dùng no-cors để tránh lỗi CORS policy khi gọi từ trình duyệt
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+      console.log("Đã gửi dữ liệu lên Google Sheets");
+    } catch (error) {
+      console.error("Lỗi khi lưu vào Google Sheets:", error);
+    }
+  };
+
   const handleExportImage = async () => {
     if (!previewRef.current) return;
     
@@ -28,6 +81,9 @@ export default function App() {
     setExportSuccess(false);
 
     try {
+      // Lưu dữ liệu vào Google Sheets (chạy ngầm)
+      saveToGoogleSheets(reportData);
+
       // Small delay to ensure rendering is complete
       await new Promise(resolve => setTimeout(resolve, 100));
       
