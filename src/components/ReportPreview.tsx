@@ -103,12 +103,12 @@ export const ReportPreview = forwardRef<HTMLDivElement, ReportPreviewProps>(
                               item.value === true ? (
                                 <div className="flex flex-col items-center text-emerald-600">
                                   <CheckCircle2 className="w-5 h-5 mb-1" />
-                                  <span className="text-xs font-medium">Đạt</span>
+                                  <span className="text-xs font-medium text-center">Thực hiện</span>
                                 </div>
                               ) : (
                                 <div className="flex flex-col items-center text-rose-600">
                                   <XCircle className="w-5 h-5 mb-1" />
-                                  <span className="text-xs font-medium">Không đạt</span>
+                                  <span className="text-xs font-medium text-center">Không TH</span>
                                 </div>
                               )
                             ) : (

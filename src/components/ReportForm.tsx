@@ -78,7 +78,7 @@ export function ReportForm({ data, onChange }: ReportFormProps) {
                             : "text-slate-600 hover:bg-slate-200"
                         )}
                       >
-                        <Check className="w-4 h-4" /> Đạt
+                        <Check className="w-4 h-4" /> Thực hiện
                       </button>
                       <button
                         onClick={() => handleItemChange(def.id, 'value', false)}
@@ -89,7 +89,7 @@ export function ReportForm({ data, onChange }: ReportFormProps) {
                             : "text-slate-600 hover:bg-slate-200"
                         )}
                       >
-                        <X className="w-4 h-4" /> Không đạt
+                        <X className="w-4 h-4" /> Không TH
                       </button>
                     </div>
                   ) : def.type === 'score' ? (
