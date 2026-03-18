@@ -22,7 +22,7 @@ export interface ReportData {
 
 export const CHECKLIST_ITEMS: ChecklistItemDef[] = [
   { id: 1, title: 'Chụp ảnh BC', type: 'check', req: 'Ảnh checkin, đủ hình ảnh biển hiệu bên ngoài, khu vực decor, tủ trưng bày, ko gian NH, khu vệ sinh' },
-  { id: 2, title: 'Kiểm tra các đồ trang trí của CH', type: 'check', req: 'Nếu đồ xuống cấp, hỏng báo ngay cho Nhân sự để xử lý.\nNếu hết thời gian trưng bày tháo bỏ\nNếu bẩn, lem nhem lau chùi\nNếu để sai chỗ sắp xếp lại.\nThay thế đồ trang trí mới (nếu có)' },
+  { id: 2, title: 'Kiểm tra các đồ trang trí của CH có bị hỏng hóc, xuống cấp, lem nhem', type: 'check', req: 'Nếu đồ xuống cấp, hỏng báo ngay cho Nhân sự để xử lý.\nNếu hết thời gian trưng bày tháo bỏ\nNếu bẩn, lem nhem lau chùi\nNếu để sai chỗ sắp xếp lại.\nThay thế đồ trang trí mới (nếu có)' },
   { id: 3, title: 'Kiểm tra âm thanh, hình ảnh tại các màn chiếu', type: 'check', req: 'Nếu nhạc bật sai qui định, chỉnh lại cho đúng qđ. Lưu ý âm lượng hợp lí.\nNếu không bật các CCTV theo yc, chỉnh lại cho đúng\nNếu hôm đó có giải đấu đá bóng hay thể thao, bật theo sự kiện đc yêu cầu' },
   { id: 4, title: 'Lấy Ý kiến khách hàng', type: 'check', req: 'Xin ý kiến khách hàng cảm nhận trải nghiệm, ý kiến về món ăn cụ thể trên bàn khách.' },
   { id: 5, title: 'Mời ctkm', type: 'check', req: 'Mời khách tham gia các CTKM thường xuyên như đánh giá 5* google, đăng ký thành viên.\nTham gia mời các CTKM định kỳ như Ngày hội Bia Ơi, thứ 3 hàng tuần cho thành viên' },

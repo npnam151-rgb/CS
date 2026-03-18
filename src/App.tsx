@@ -22,12 +22,13 @@ export default function App() {
 
   const [isExporting, setIsExporting] = useState(false);
   const [exportSuccess, setExportSuccess] = useState(false);
+  const [sheetStatus, setSheetStatus] = useState<'idle' | 'saving' | 'success' | 'error'>('idle');
   const previewRef = useRef<HTMLDivElement>(null);
 
   const saveToGoogleSheets = async (data: ReportData) => {
     if (!GOOGLE_SHEET_WEBHOOK_URL) {
       console.log("Chưa cấu hình Google Sheets Webhook URL. Bỏ qua bước lưu dữ liệu.");
-      return;
+      return false;
     }
 
     // Tính tổng điểm
@@ -49,7 +50,7 @@ export default function App() {
         // Format true/false thành text
         let formattedValue = item.value;
         if (item.value === true) formattedValue = "Thực hiện";
-        if (item.value === false) formattedValue = "Không TH";
+        if (item.value === false) formattedValue = "Không thực hiện";
 
         return {
           title: def?.title || `Hạng mục ${item.id}`,
@@ -60,6 +61,7 @@ export default function App() {
     };
 
     try {
+      setSheetStatus('saving');
       await fetch(GOOGLE_SHEET_WEBHOOK_URL, {
         method: 'POST',
         mode: 'no-cors', // Dùng no-cors để tránh lỗi CORS policy khi gọi từ trình duyệt
@@ -69,8 +71,12 @@ export default function App() {
         body: JSON.stringify(payload)
       });
       console.log("Đã gửi dữ liệu lên Google Sheets");
+      setSheetStatus('success');
+      return true;
     } catch (error) {
       console.error("Lỗi khi lưu vào Google Sheets:", error);
+      setSheetStatus('error');
+      return false;
     }
   };
 
@@ -79,10 +85,11 @@ export default function App() {
     
     setIsExporting(true);
     setExportSuccess(false);
+    setSheetStatus('idle');
 
     try {
-      // Lưu dữ liệu vào Google Sheets (chạy ngầm)
-      saveToGoogleSheets(reportData);
+      // Lưu dữ liệu vào Google Sheets (CÓ AWAIT ĐỂ ĐỢI LƯU XONG)
+      const isSaved = await saveToGoogleSheets(reportData);
 
       // Small delay to ensure rendering is complete
       await new Promise(resolve => setTimeout(resolve, 100));
@@ -100,7 +107,7 @@ export default function App() {
       link.click();
       
       setExportSuccess(true);
-      setTimeout(() => setExportSuccess(false), 3000);
+      setTimeout(() => setExportSuccess(false), 4000);
     } catch (err) {
       console.error('Failed to export image', err);
       alert('Có lỗi xảy ra khi xuất ảnh. Vui lòng thử lại.');
@@ -130,11 +137,16 @@ export default function App() {
               className="hidden sm:inline-flex items-center gap-2 px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg shadow-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
             >
               {isExporting ? (
-                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                <>
+                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                  {sheetStatus === 'saving' ? 'Đang lưu dữ liệu...' : 'Đang xuất ảnh...'}
+                </>
               ) : (
-                <Download className="w-4 h-4" />
+                <>
+                  <Download className="w-4 h-4" />
+                  Tải ảnh báo cáo
+                </>
               )}
-              Tải ảnh báo cáo
             </button>
           </div>
         </div>
@@ -143,9 +155,13 @@ export default function App() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-28 sm:pb-8">
         {exportSuccess && (
-          <div className="mb-6 p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center gap-3 text-emerald-800 animate-in fade-in slide-in-from-top-4">
-            <CheckCircle2 className="w-5 h-5 text-emerald-600" />
-            <p className="font-medium">Xuất ảnh thành công! Bạn có thể gửi ảnh này qua Zalo.</p>
+          <div className={`mb-6 p-4 rounded-xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 ${sheetStatus === 'error' ? 'bg-amber-50 border-amber-200 text-amber-800' : 'bg-emerald-50 border-emerald-200 text-emerald-800'}`}>
+            {sheetStatus === 'error' ? <AlertCircle className="w-5 h-5 text-amber-600" /> : <CheckCircle2 className="w-5 h-5 text-emerald-600" />}
+            <p className="font-medium">
+              {sheetStatus === 'error' 
+                ? 'Đã tải ảnh thành công, nhưng LỖI lưu dữ liệu lên Google Sheets. Vui lòng kiểm tra mạng!' 
+                : 'Đã tải ảnh và lưu dữ liệu lên Google Sheets thành công!'}
+            </p>
           </div>
         )}
 
@@ -189,11 +205,16 @@ export default function App() {
           className="w-full flex justify-center items-center gap-2 px-4 py-3.5 bg-indigo-600 hover:bg-indigo-700 text-white text-base font-semibold rounded-xl shadow-sm transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
         >
           {isExporting ? (
-            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+            <>
+              <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+              {sheetStatus === 'saving' ? 'Đang lưu dữ liệu...' : 'Đang xuất ảnh...'}
+            </>
           ) : (
-            <Download className="w-5 h-5" />
+            <>
+              <Download className="w-5 h-5" />
+              Tải ảnh báo cáo
+            </>
           )}
-          Tải ảnh báo cáo
         </button>
       </div>
     </div>
