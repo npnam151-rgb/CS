@@ -66,7 +66,7 @@ export default function App() {
         method: 'POST',
         mode: 'no-cors', // Dùng no-cors để tránh lỗi CORS policy khi gọi từ trình duyệt
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'text/plain;charset=utf-8', // Đổi thành text/plain để fix lỗi trên iOS/Safari
         },
         body: JSON.stringify(payload)
       });
