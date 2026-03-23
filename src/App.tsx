@@ -6,7 +6,7 @@ import { ReportPreview } from './components/ReportPreview';
 import { ReportData, CHECKLIST_ITEMS } from './types';
 
 // TODO: Thay thế đường dẫn này bằng URL Web App của Google Apps Script của bạn
-const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbwgcc1OUFV2fyFq7Tk6wsywwpMy_g074yn3bwQi6hV2BepeRKIyjP_MxO3w_kZfnKYy/exec";
+const GOOGLE_SHEET_WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxWKIm74psex5-61MTbeSZKTyA5_K8GBE2MzZ3iOcn7bu1ekM7NqvGXDOJLmz88iDGQ/exec";
 
 export default function App() {
   const [reportData, setReportData] = useState<ReportData>({
