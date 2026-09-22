@@ -40,6 +40,7 @@ export default function App() {
       .reduce((sum, item) => sum + (Number(item.value) || 0), 0);
 
     const payload = {
+      sheetName: "BC CX",
       location: data.location,
       date: data.date,
       reporter: data.reporter,
